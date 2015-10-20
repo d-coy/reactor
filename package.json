@@ -1,0 +1,36 @@
+{
+  "name": "Reactor",
+  "version": "1.0.0",
+  "description": "A simple starting place for react projects.",
+  "main": "src/index.js",
+  "author": "David McKoy",
+  "license": "MIT",
+  "devDependencies": {
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
+    "jade": "^1.11.0",
+    "parallelshell": "^2.0.0",
+    "rimraf": "^2.4.3",
+    "stylus": "^0.52.4",
+    "uglify-js": "^2.5.0",
+    "watch": "^0.16.0",
+    "watchify": "^3.4.0"
+  },
+  "dependencies": {
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
+  },
+  "scripts": {
+    "clean": "rimraf dist/js/*",
+    "build-js": "browserify src/js/*.jsx -t babelify | uglifyjs -o dist/js/app.js",
+    "build-html": "jade < src/views/index.jade > dist/index.html",
+    "watch-js": "watchify src/js/index.jsx -t babelify -o dist/js/app.js -dv",
+    "watch-html": "watch 'npm run build-html' ./src/views",
+    "watch": "parallelshell 'npm run watch-html' 'npm run watch-js'",
+    "livereload": "livereload dist/ 8000",
+    "prebuild": "npm run clean -s",
+    "build": "npm run build-js && npm run build-html",
+    "serve": "cd dist && http-server -p 8000",
+    "dev": "parallelshell 'npm run serve -s' 'npm run livereload' 'npm run watch'"
+  }
+}
